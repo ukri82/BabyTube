@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.iomil.babytube.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    android:id="@+id/parent_view"
+>
+
+    <fragment class="com.iomil.babytube.VideoFragment"
+              android:id="@+id/youtube_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="300dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/play_list_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/youtube_fragment"
+        android:background="@color/list_background"/>
+
+    <!--<FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+        <include layout="@layout/fragment_video"
+        android:id="@+id/video_fragment">
+
+        </include>
+    </FrameLayout>-->
+</RelativeLayout>
