@@ -2,7 +2,10 @@ package com.iomil.babytube;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +82,30 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
 
     }
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
+    {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 
 
     @Override
@@ -123,7 +150,10 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
 
         holder.mDescrView.setText(mDataset.get(position).mId);
 
-        setImage(holder.mPictureView, mDataset.get(position).mId);
+        //setImage(holder.mPictureView, mDataset.get(position).mId);
+        new DownloadImageTask(holder.mPictureView)
+                .execute("http://img.youtube.com/vi/" + mDataset.get(position).mId + "/default.jpg");
+
 
         holder.mPictureView.setOnClickListener(new View.OnClickListener()
         {

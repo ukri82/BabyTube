@@ -97,12 +97,17 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
             }
         });
         List<VideoItem> videos = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 8; i++)
         {
             videos.add(new VideoItem("lc03JqnPbIk", "lc03JqnPbIk"));
             videos.add(new VideoItem("Sietpr9Wol8", "Sietpr9Wol8"));
             videos.add(new VideoItem("A3u2y9XJ0Fw", "A3u2y9XJ0Fw"));
             videos.add(new VideoItem("6gRMAa70Yfo", "6gRMAa70Yfo"));
+            videos.add(new VideoItem("AfCAVqnV5Jw", "AfCAVqnV5Jw"));
+            videos.add(new VideoItem("Q2FwhvKXeq4", "Q2FwhvKXeq4"));
+            videos.add(new VideoItem("Pof3oYF4ahg", "Pof3oYF4ahg"));
+            videos.add(new VideoItem("E3djTVRfIF0", "E3djTVRfIF0"));
+
         }
         mAdapter.appendQueueList(videos);
     }
@@ -121,13 +126,18 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                        YouTubePlayer player, boolean wasRestored) {
-        if (!wasRestored) {
+
+                                        YouTubePlayer player, boolean wasRestored)
+    {
+        mPlayer = player;
+        if (!wasRestored)
+        {
 
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
             mPlayer = player;
-            player.loadVideo("lc03JqnPbIk");
+            mPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
+            mPlayer.loadVideo("lc03JqnPbIk");
 
             // Hiding player controls
             //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
