@@ -1,7 +1,6 @@
 package com.iomil.babytube;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -59,12 +58,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     {
         return mDataset.get(0).mId;
     }
-    public void clear()
-    {
-        int size = mDataset.size();
-        mDataset.clear();
-        notifyItemRangeRemoved(0, size);
-    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -139,14 +133,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
-        /*holder.mParentView.setOnClickListener(new View.OnClickListener()
+        holder.mParentView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                mListener.onClick(mDataset.get(position));
+                mListener.onClick(mDataset.get(position).mId);
             }
-        });*/
+        });
 
         holder.mDescrView.setText(mDataset.get(position).mId);
 

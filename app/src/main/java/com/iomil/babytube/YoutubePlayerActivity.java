@@ -1,24 +1,20 @@
 package com.iomil.babytube;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class YoutubePlayerActivity extends YouTubeBaseActivity implements
         YouTubePlayer.OnInitializedListener, PlayListAdapter.VideoClickListener
@@ -96,28 +92,27 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
 
             }
         });
-        List<VideoItem> videos = new ArrayList<>();
-        for(int i = 0; i < 8; i++)
-        {
-            videos.add(new VideoItem("lc03JqnPbIk", "lc03JqnPbIk"));
-            videos.add(new VideoItem("Sietpr9Wol8", "Sietpr9Wol8"));
-            videos.add(new VideoItem("A3u2y9XJ0Fw", "A3u2y9XJ0Fw"));
-            videos.add(new VideoItem("6gRMAa70Yfo", "6gRMAa70Yfo"));
-            videos.add(new VideoItem("AfCAVqnV5Jw", "AfCAVqnV5Jw"));
-            videos.add(new VideoItem("Q2FwhvKXeq4", "Q2FwhvKXeq4"));
-            videos.add(new VideoItem("Pof3oYF4ahg", "Pof3oYF4ahg"));
-            videos.add(new VideoItem("E3djTVRfIF0", "E3djTVRfIF0"));
 
-        }
+        VideoManager videoManager = VideoManager.getInstance();
+        videoManager.init(this);
+        List<VideoItem> videos = new ArrayList<>();
+        for(int i = 0; i < 12; i++)
+            videos.addAll(videoManager.get());
+        long seed = System.nanoTime();
+        Collections.shuffle(videos, new Random(seed));
         mAdapter.appendQueueList(videos);
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult errorReason) {
-        if (errorReason.isUserRecoverableError()) {
+                                        YouTubeInitializationResult errorReason)
+    {
+        if (errorReason.isUserRecoverableError())
+        {
             errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
-        } else {
+        }
+        else
+        {
             String errorMessage = String.format(
                     getString(R.string.error_player), errorReason.toString());
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
@@ -133,14 +128,9 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
         if (!wasRestored)
         {
 
-            // loadVideo() will auto play video
-            // Use cueVideo() method, if you don't want to play it automatically
             mPlayer = player;
             mPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
-            mPlayer.loadVideo("lc03JqnPbIk");
-
-            // Hiding player controls
-            //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+            //mPlayer.loadVideo("lc03JqnPbIk");
         }
     }
 
